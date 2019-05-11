@@ -8,16 +8,17 @@ Usage:
 ...
 """
 
+import sys
 import csv
 import itertools
 import functools
 from fractions import Fraction
 
 class Vote:
-    # weigth = 1.
+    # weight = 1.
     # ranking = []
     def __init__(self, *ranking, **kwargs):
-        self.weigth = Fraction(1)
+        self.weight = Fraction(1)
         self.name = kwargs.get('name')
         self.ranking = []
         for r in ranking:
@@ -29,39 +30,39 @@ class Vote:
                 raise ValueError
 
     def __repr__(self):
-        assert type(self.weigth) is Fraction
+        assert type(self.weight) is Fraction
         if self.ranking:
-            return '<Vote with weigth %.2f: %s>' % (self.weigth,
+            return '<Vote with weight %.2f: %s>' % (self.weight,
                 '; '.join("%d. %s" % (i+1, ', '.join(self.ranking[i]))
                     for i in range(len(self.ranking))))
         else:
             return '<empty vote>'
 
     def describe(self):
-        assert type(self.weigth) is Fraction
+        assert type(self.weight) is Fraction
         if self.ranking:
             if self.name:
-                return '[%s; weigth %.2f] %s' % (self.name, self.weigth,
+                return '[%s; weight %.2f] %s' % (self.name, self.weight,
                         '; '.join("%d. %s" % (i+1, ', '.join(self.ranking[i]))
                                   for i in range(len(self.ranking))))
             else:
-                return '[weigth %.2f] %s' % (self.weigth,
+                return '[weight %.2f] %s' % (self.weight,
                         '; '.join("%d. %s" % (i+1, ', '.join(self.ranking[i]))
                                   for i in range(len(self.ranking))))
         else:
             return '<empty vote>'
 
     def candidates(self):
-        assert type(self.weigth) is Fraction
+        assert type(self.weight) is Fraction
         return functools.reduce(list.__add__, self.ranking, [])
 
     def remove(self, candidate, lighten=None):
-        assert type(self.weigth) is Fraction
+        assert type(self.weight) is Fraction
         # questa prima condizione gestisce il caso di un candidato vincente
         if lighten is not None and candidate in self.ranking[0]:
             # lighten should be a Fraction
             assert type(lighten) is Fraction
-            self.weigth *= 1 -  lighten / len(self.ranking[0])
+            self.weight *= 1 - lighten / len(self.ranking[0])
         for r in self.ranking:
             if candidate in r:
                 r.remove(candidate)
@@ -117,7 +118,7 @@ class Election:
         candidates = {c: Fraction(0) for c in self.candidates}
         for vote in self.votes:
             for c in vote.ranking[0]: # TODO gestire la fine
-                candidates[c] += vote.weigth / len(vote.ranking[0])
+                candidates[c] += vote.weight / len(vote.ranking[0])
         return candidates
 
     def step(self, verbose=True):
@@ -193,7 +194,8 @@ def read_csv(filename):
     return candidates, votes
 
 if __name__ == '__main__':
-    candidates, votes = read_csv('votes.csv')
+    cvr_file = sys.argv[1]
+    candidates, votes = read_csv(cvr_file)
 
     asbs = Election(candidates, seats=2)
 
