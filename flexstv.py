@@ -5,7 +5,7 @@
 Fractions are used in order to avoid rounding errors.
 
 Usage:
-...
+flexstv [-h] [-s SEATS] [-r] [-v VERBOSITY] cvr_file
 """
 
 import sys
