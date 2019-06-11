@@ -1,4 +1,21 @@
-,Candidate 1,Candidate 2,Candidate 3
-Organization A,1,2,3
-Organization B,,1,2
-Organization C,1,1,
+Voter,Orange,Pear,Chocolate,Strawberry,Sweets
+01,1,,,,
+02,1,,,,
+03,1,,,,
+04,1,,,,
+05,2,1,,,
+06,2,1,,,
+07,,,1,2,
+08,,,1,2,
+09,,,1,2,
+10,,,1,2,
+11,,,1,2,
+12,,,1,2,
+13,,,1,2,
+14,,,1,2,
+15,,,1,,2
+16,,,1,,2
+17,,,1,,2
+18,,,1,,2
+19,,,,2,
+20,,,,,2

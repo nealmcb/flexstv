@@ -19,7 +19,7 @@ from fractions import Fraction
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("-s", "--seats", type=int, default=2,
                     help="Number of winners. Default is 2" )
-parser.add_argument("-v", "--verbosity", type=int, default=1,
+parser.add_argument("-v", "--verbosity", type=int, default=2,
                     help="Set verbosity level. Default is 2, 0 is quietest" )
 parser.add_argument('cvr_file',
                     help='Cast Vote Record file, in csv format')
