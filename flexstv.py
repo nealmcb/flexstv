@@ -9,13 +9,24 @@ Usage:
 """
 
 import sys
+import argparse
 import csv
 import itertools
 import functools
 from fractions import Fraction
 
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("-s", "--seats", type=int, default=2,
+                    help="Number of winners. Default is 2" )
+parser.add_argument("-v", "--verbosity", type=int, default=1,
+                    help="Set verbosity level. Default is 2, 0 is quietest" )
+parser.add_argument('cvr_file',
+                    help='Cast Vote Record file, in csv format')
+
+
 class Vote:
-    # weight = 1.
+    # weight = Fraction
     # ranking = []
     def __init__(self, *ranking, **kwargs):
         self.weight = Fraction(1)
@@ -152,10 +163,11 @@ class Election:
                   and len(self.elected) < self.seats):
                 print("\nSTALEMATE")
 
-    # verbosity=0: quiet
-    # verbosity=1: only the result of each step
-    # verbosity=2: votes in each step
     def count(self, verbosity=2):
+        """The main entry point to tally the Election.
+        :param verbosity: 0: quiet; 1: only the result of each step; 2: full
+        :return: list of elected candidates
+        """
         self.votes.sort(key=lambda x: x.name)
         # Droop quota
         self.quota = len(self.votes) // (self.seats + 1) + 1
@@ -194,12 +206,13 @@ def read_csv(filename):
     return candidates, votes
 
 if __name__ == '__main__':
-    cvr_file = sys.argv[1]
-    candidates, votes = read_csv(cvr_file)
+    args = parser.parse_args()
 
-    asbs = Election(candidates, seats=2)
+    candidates, votes = read_csv(args.cvr_file)
+
+    election = Election(candidates, seats=args.seats)
 
     for x in votes:
-        asbs.add(Vote(*votes[x], name=x))
+        election.add(Vote(*votes[x], name=x))
 
-    asbs.count()
+    elected = election.count(args.verbosity)
