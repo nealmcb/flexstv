@@ -11,6 +11,19 @@ Requires Python 3.
 
 ## Usage
 
+Votes are specified as a set of Cast Vote Records (CVRs)
+formatted as a comma-separate values (csv) file.
+The first header row names the candidates.
+The first column of the file provides a unique id for the voter.
+The last occurrence of a vote in the file for a given voter overrides
+previous votes.
+
+In the the remaining columns appear the ranks (where 1 is the most-preferred) given
+by the voter to the candidate. Equal ranks are allowed, and result in prorated votes.
+
+See votes.csv for a contest corresponding to the example at Wikipedia:
+[Single transferable vote](https://en.wikipedia.org/wiki/Single_transferable_vote).
+
     flexstv [-h] [-s SEATS] [-r] [-v VERBOSITY] cvr_file
 
 The number of seats (winners) to assign defaults to 2
@@ -18,8 +31,7 @@ and the verbosity defaults to 2 (highest).
 
 ## Example
 
-Reproduce the results in the example at Wikipedia:
-[Single transferable vote](https://en.wikipedia.org/wiki/Single_transferable_vote)
+Reproduce the results from Wikipedia:
 
     $ flexstv.py -s 3 -v 1 votes.csv
     Counting the votes...
@@ -37,7 +49,7 @@ Reproduce the results in the example at Wikipedia:
     Step 5. Strawberry (8.00)
       Strawberry is selected.
 
-Contest with some equal rankings:
+Example Contest with some equal rankings:
 
     $ flexstv.py -s 2 -v 1 some-equal-rankings.csv
     Counting the votes...
