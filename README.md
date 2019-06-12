@@ -4,7 +4,7 @@ flexstv is a flexible implementation of the Single Transferrable Vote (STV) algo
 Unlike most STV implementations, it allows tied rankings, prorating the vote for each candidate in
 the tie by the number of candidates so-ranked which remain in each round.
 
-Licensed: GPLv3
+License: GPLv3
 
 ## Prerequisites
 Requires Python 3.
@@ -18,8 +18,8 @@ and the verbosity defaults to 2 (highest).
 
 ## Example
 
-Reproduce the results in the example at
-Single transferable vote - Wikipedia](https://en.wikipedia.org/wiki/Single_transferable_vote)
+Reproduce the results in the example at Wikipedia:
+[Single transferable vote](https://en.wikipedia.org/wiki/Single_transferable_vote)
 
     $ flexstv.py -s 3 -v 1 votes.csv
     Counting the votes...
@@ -36,3 +36,21 @@ Single transferable vote - Wikipedia](https://en.wikipedia.org/wiki/Single_trans
       Sweets loses.
     Step 5. Strawberry (8.00)
       Strawberry is selected.
+
+Contest with some equal rankings:
+
+    $ flexstv.py -s 2 -v 1 some-equal-rankings.csv
+    Counting the votes...
+
+    Total votes: 18
+    Quota: 7
+    Step 1. A (7.67); B (4.17); C (3.83); E (2.00); D (0.33)
+      A is selected.
+    Step 2. B (4.41); C (3.98); E (2.13); D (0.48)
+      D loses.
+    Step 3. B (4.80); C (4.02); E (2.17)
+      E loses.
+    Step 4. B (5.89); C (5.11)
+      C loses.
+    Step 5. B (11.00)
+      B is selected.
